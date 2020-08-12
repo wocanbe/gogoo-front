@@ -46,11 +46,11 @@ const menus = [{
 }, {
   id: '4',
   title: 'js编辑器',
-  path: '/codejs'
+  path: '/demo/codejs'
 }, {
   id: '5',
   title: 'json编辑器',
-  path: '/codejson'
+  path: '/demo/codejson'
 }]
 export default {
   name: 'Main',

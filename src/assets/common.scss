@@ -1,4 +1,4 @@
-@import "awesome";
+@import "font";
 * {
   box-sizing: border-box;
   user-select: none;
@@ -71,6 +71,16 @@ a {
   text-decoration: none;
 }
 
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  background-color: $bgColor;
+}
+
 .full {
   height: 100%;
   width: 100%;
@@ -80,12 +90,12 @@ a {
   text-align: left;
 }
 
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  height: 100%;
-  width: 100%;
-  // background-color: $bgColor;
+.operate {
+  color: $釉蓝;
+}
+
+.el-icon-close:before {
+  font-family: "fontello";
+  font-style: normal;
+  content: '\e809';
 }

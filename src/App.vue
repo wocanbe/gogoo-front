@@ -1,12 +1,5 @@
 <template>
   <div id="app" v-loading="loading">
-    <el-dialog
-      :title="errType"
-      :visible="!!errMsg"
-      @confirm="setErrMsg('')"
-      center>
-      {{errMsg}}
-    </el-dialog>
     <router-view/>
   </div>
 </template>

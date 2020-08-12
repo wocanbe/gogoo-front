@@ -20,27 +20,27 @@ const routes = [
       {
         path: '/mock',
         name: 'Mock',
-        component: () => import(/* webpackChunkName: "component" */ '../views/Mock.vue')
+        component: () => import(/* webpackChunkName: "component" */ '../views/mock/Index.vue')
       },
       {
         path: '/mult',
         name: 'Mult',
-        component: () => import(/* webpackChunkName: "component" */ '../views/Mult.vue')
+        component: () => import(/* webpackChunkName: "component" */ '../views/mult/Index.vue')
       },
       {
         path: '/single',
         name: 'Single',
-        component: () => import(/* webpackChunkName: "component" */ '../views/Single.vue')
+        component: () => import(/* webpackChunkName: "component" */ '../views/single/Index.vue')
       },
       {
-        path: '/codejs',
+        path: '/demo/codejs',
         name: 'CodeJS',
-        component: () => import(/* webpackChunkName: "component" */ '../views/CodeJs.vue')
+        component: () => import(/* webpackChunkName: "component" */ '../views/demo/CodeJs.vue')
       },
       {
-        path: '/codejson',
+        path: '/demo/codejson',
         name: 'CodeJson',
-        component: () => import(/* webpackChunkName: "component" */ '../views/CodeJson.vue')
+        component: () => import(/* webpackChunkName: "component" */ '../views/demo/CodeJson.vue')
       }
     ]
   },{
@@ -70,7 +70,6 @@ router.beforeEach(async (to, from, next) => {
     }
   } else {
     store.commit('clean')
-    store.commit('setErrMsg', '自定义错误')
     if (to.meta.needId && !to.query.id) {
       alert('缺少参数id')
       next(false)

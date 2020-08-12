@@ -7,7 +7,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     errType: '错误',
-    errMsg: '测试数据',
+    // errMsg: '',
     mask: false,
     loading: false
   },
@@ -16,14 +16,14 @@ const store = new Vuex.Store({
       state.mask = mask
     },
     setErrMsg (state, errMsg) {
-      state.errMsg = errMsg
+      Vue.prototype.$alert(errMsg, state.errType)
     },
     setLoading (state, loading) {
       state.loading = loading
     },
     clean (state) {
       state.loading = false
-      state.errMsg = ''
+      // state.errMsg = ''
       state.mask = false
     }
   },

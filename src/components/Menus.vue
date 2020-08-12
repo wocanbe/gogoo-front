@@ -4,7 +4,7 @@
       <div class="nav-item" v-if="item.children">
         <div class="nav-item-title" @click="toggerNav(item.id)">
           {{item.title}}
-          <i :class="item.id == activeMenu?'fa fa-angle-up':'fa fa-angle-down'" />
+          <i :class="item.id == activeMenu?'fly-up-a':'fly-down-a'" />
         </div>
         <div class="nav-sub" v-show="item.id == activeMenu">
           <router-link
@@ -48,11 +48,11 @@ export default {
   &-title {
     padding: 10px 16px;
     overflow: hidden;
-    color: #323233;
+    color: $景泰蓝;
     font-size: 14px;
     line-height: 24px;
-    background-color: #fff;
-    border-bottom: 1px solid #eee;
+    background-color: $象牙白;
+    border-bottom: 1px solid $珍珠灰;
   }
   .nav-sub {
     width: 100%;
@@ -61,19 +61,19 @@ export default {
       position: relative;
       display: block;
       padding: 8px 16px;
-      color: #969799;
+      color: $瀑布蓝;
       font-size: 13px;
       line-height: 1.5;
-      background-color: #fff;
+      background-color: $象牙白;
       &.on {
-        background: $titleColor;
-        color: white;
+        background: $瀑布蓝;
+        color: $象牙白;
       }
     }
   }
   &.on {
-    background: $titleColor;
-    color: white;
+    background: $景泰蓝;
+    color: $象牙白;
   }
 }
 </style>
