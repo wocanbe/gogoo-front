@@ -31,16 +31,6 @@ const routes = [
         path: '/single',
         name: 'Single',
         component: () => import(/* webpackChunkName: "component" */ '../views/single/Index.vue')
-      },
-      {
-        path: '/demo/codejs',
-        name: 'CodeJS',
-        component: () => import(/* webpackChunkName: "component" */ '../views/demo/CodeJs.vue')
-      },
-      {
-        path: '/demo/codejson',
-        name: 'CodeJson',
-        component: () => import(/* webpackChunkName: "component" */ '../views/demo/CodeJson.vue')
       }
     ]
   },{

@@ -154,6 +154,7 @@ export default {
         f: this.formData.file,
         c: this.formData.content
       })
+      this.showForm = false
     },
     async testMock () {
       const res = await this.$ajax({

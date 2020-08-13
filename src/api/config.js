@@ -20,6 +20,30 @@ const list = {
   saveMock: {
     method: 'post',
     url: 'manage/save'
+  },
+  getGqlList: {
+    method: 'get',
+    url: 'gql/list'
+  },
+  addGql: {
+    method: 'post',
+    url: 'gql/add'
+  },
+  saveGql: {
+    method: 'post',
+    url: 'gql/save'
+  },
+  getMultList: {
+    method: 'get',
+    url: 'gqls/list'
+  },
+  addMult: {
+    method: 'post',
+    url: 'gqls/add'
+  },
+  saveMult: {
+    method: 'post',
+    url: 'gqls/save'
   }
 }
 

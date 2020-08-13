@@ -22,35 +22,11 @@ const menus = [{
 }, {
   id: '2',
   title: '单个接口转发',
-  children: [{
-    id: '21',
-    title: '接口列表',
-    path: '/single'
-  }, {
-    id: '22',
-    title: '接口详情',
-    path: '/single'
-  }, {
-    id: '23',
-    title: '接口修改',
-    path: '/single'
-  }, {
-    id: '24',
-    title: '接口添加',
-    path: '/single'
-  }]
+  path: '/single'
 }, {
   id: '3',
   title: '组合接口转发',
   path: '/mult'
-}, {
-  id: '4',
-  title: 'js编辑器',
-  path: '/demo/codejs'
-}, {
-  id: '5',
-  title: 'json编辑器',
-  path: '/demo/codejson'
 }]
 export default {
   name: 'Main',
@@ -102,5 +78,6 @@ aside {
   height: 100%;
   text-align: center;
   padding: 20px;
+  overflow: auto;
 }
 </style>
