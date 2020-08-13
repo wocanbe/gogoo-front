@@ -88,6 +88,7 @@ a {
 }
 .vuecode {
   text-align: left;
+  overflow: auto;
 }
 
 .operate {
@@ -95,7 +96,7 @@ a {
 }
 
 .el-icon-close:before {
-  font-family: "fontello";
+  font-family: "fly";
   font-style: normal;
   content: '\e809';
 }

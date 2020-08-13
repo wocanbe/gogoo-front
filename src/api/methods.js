@@ -1,5 +1,4 @@
-import isObject from 'lodash/isObject'
-import isArray from 'lodash/isArray'
+import {isString, isObject, isArray} from 'lodash'
 import store from '../store'
 import router from '../router'
 
@@ -16,7 +15,8 @@ function removeEmpty (data) {
 }
 function addJsonData (data) {
   const userid = sessionStorage.getItem('userid')
-  const backData = { userid }
+  const token = sessionStorage.getItem('token')
+  const backData = { userid, token }
   for (const k in removeEmpty(data)) {
     let v = data[k]
     if (typeof v === 'string' && v.substr(0, 5) === 'vuex.') {
@@ -29,18 +29,9 @@ function addJsonData (data) {
   }
   return backData
 }
-function addToken (req) {
-  const token = sessionStorage.getItem('token')
-  if (req.options.headers) {
-    req.options.headers.token = token
-  } else {
-    req.options.headers = { token: token }
-  }
-}
 function reqFiter (req) {
   if (req[1].skipLoading) delete req[1].skipLoading
   else store.commit('setLoading', true)
-  addToken(req[0])
   let isJson = true
   const contentType = req[0].options.headers['Content-Type']
   if (contentType && contentType !== 'application/json') isJson = false
@@ -48,6 +39,7 @@ function reqFiter (req) {
 }
 function resFiter (data) {
   store.commit('setLoading', false)
+  if (isString(data)) return data
   if (data.code === 0) return data.data
   else {
     if (data.code === 401) {
@@ -62,7 +54,7 @@ function resFiter (data) {
 }
 function errFiter (err) {
   store.commit('setLoading', false)
-  // store.commit('setErrMsg', err.message)
+  store.commit('setErrMsg', err.message)
   throw err
 }
 const methods = {

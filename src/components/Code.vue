@@ -1,6 +1,6 @@
 <template>
-  <div class="vuecode">
-    <textarea ref="vuecode" :value="cmVal" ></textarea>
+  <div class="vuecode" :style="styles">
+    <textarea ref="vuecode" :style="styles" :value="cmVal" ></textarea>
   </div>
 </template>
 
@@ -14,8 +14,10 @@ export default {
     value: String,
     mode: {
       type: String,
-      default: 'javascript'
-    }
+      default: 'js'
+    },
+    width: String,
+    height: String
   },
   data () {
     return {
@@ -25,7 +27,14 @@ export default {
   computed: {
     modeType () {
       if (this.mode === 'json') return 'application/json'
-      else return 'text/javascript'
+      else if (this.mode === 'js') return 'text/javascript'
+      else return 'text/x-textile'
+    },
+    styles () {
+      const ys = {}
+      if (this.width) ys['width'] = this.width
+      if (this.height) ys['height'] = this.height
+      return ys
     }
   },
   mounted () {
@@ -39,8 +48,6 @@ export default {
       styleActiveLine: true,
       matchBrackets: true
     })
-    // 将json文件格式化显示
-    // this.vueEditor.setValue(this.value);
     // 当输入框内容发生变化 更新value值
     this.vueEditor.on('change', cm => {
       const cmVal = cm.getValue()
@@ -54,7 +61,10 @@ export default {
   },
   methods: {
     refresh() {
-      this.vueEditor && this.vueEditor.refresh();
+      this.vueEditor && this.vueEditor.refresh()
+    },
+    setVal (val) {
+      this.vueEditor && this.vueEditor.setValue(val);
     }
   }
 }

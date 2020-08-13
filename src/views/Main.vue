@@ -101,5 +101,6 @@ aside {
   color: #333;
   height: 100%;
   text-align: center;
+  padding: 20px;
 }
 </style>
