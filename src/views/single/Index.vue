@@ -53,10 +53,11 @@
       <vxe-table-column field="url" title="请求路径"></vxe-table-column>
       <vxe-table-column field="method" title="请求方法" :formatter="formatMethod"></vxe-table-column>
       <vxe-table-column field="status" title="状态" :formatter="formatStatus"></vxe-table-column>
+      <vxe-table-column field="intro" title="简介"></vxe-table-column>
       <vxe-table-column type="seq" title="操作">
-        <template v-slot:header>
+        <!-- <template v-slot:header>
           <span class="operate">操作 <i class="fly-add-s" @click="addEvent()" title="添加"></i></span>
-        </template>
+        </template> -->
         <template v-slot="{row}">
           <i class="operate fly-set" @click="setEvent(row)" title="修改配置"></i>
           <i class="operate fly-play" @click="runEvent(row)" title="运行"></i>
@@ -171,6 +172,10 @@ export default {
       this.showForm = true
     },
     runEvent (item) {
+      if (item.status === 0) {
+        this.$alert('该接口尚未初始化', '提示')
+        return
+      }
       this.testData.path = item.url
       this.testData.method = methods[item.method]
       this.showTest = true

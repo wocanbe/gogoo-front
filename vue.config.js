@@ -1,4 +1,5 @@
 const path = require("path")
+const CompressionPlugin = require("compression-webpack-plugin")
 
 const isProduction = process.env.NODE_ENV === 'production'
 
@@ -33,6 +34,31 @@ module.exports = {
       }
     }
   },
+  configureWebpack: (config) => {
+    // 生产环境相关配置
+    if (isProduction) {
+      config.plugins.push(
+        new CompressionPlugin({
+          /* [file]被替换为原始资产文件名。
+             [path]替换为原始资产的路径。
+             [dir]替换为原始资产的目录。
+             [name]被替换为原始资产的文件名。
+             [ext]替换为原始资产的扩展名。
+             [query]被查询替换。*/
+          filename: '[path].gz[query]',
+          //压缩算法
+          algorithm: 'gzip',
+          //匹配文件
+          test: /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i,
+          //压缩超过此大小的文件,以字节为单位
+          threshold: 10240,
+          minRatio: 0.8,
+          //删除原始文件只保留压缩后的文件
+          // deleteOriginalAssets: true
+        })
+      )
+    }
+  },
   // webpack配置
   chainWebpack: config => {
     config.resolve.alias
@@ -57,19 +83,35 @@ module.exports = {
         return args
       })
       config.optimization.splitChunks({
-        chunks: 'initial',
+        chunks: 'initial', //  “initial”（初始化） | “all”(默认就是 all) | “async”（动态加载）
         name: true,
         cacheGroups: {
           default: false,
           vendors: {
+            name: 'vendors',
             test (module) {
               return /\/node_modules\//.test(module.resource)
             },
             priority: -10,
             enforce: true
           },
-          vant: {
-            test: /node_modules\/element\//,
+          element: {
+            name: 'element',
+            test: /node_modules\/element-ui\//,
+            priority: 1,
+            enforce: true
+          },
+          vxe: {
+            name: 'vxe',
+            test: /node_modules\/vxe-table\//,
+            priority: 2,
+            enforce: true
+          },
+          codemirror: {
+            chunks: 'async',
+            name: 'codemirror',
+            test: /node_modules\/codemirror\//,
+            priority: 3,
             enforce: true
           }
         }

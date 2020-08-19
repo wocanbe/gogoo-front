@@ -5,10 +5,7 @@
 </template>
 
 <script>
-import CodeMirror from 'codemirror'
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/theme/ayu-dark.css'
-import 'codemirror/mode/javascript/javascript.js'
+import creatCode from '../plugins/codemirror'
 export default {
   props: {
     value: String,
@@ -38,16 +35,7 @@ export default {
     }
   },
   mounted () {
-    this.vueEditor = CodeMirror.fromTextArea(this.$refs.vuecode, {
-      mode: this.modeType,
-      tabSize: 2,
-      theme: 'ayu-dark',
-      lineNumbers: true,
-      line: true,
-      autoRefresh: true,
-      styleActiveLine: true,
-      matchBrackets: true
-    })
+    this.vueEditor = creatCode(this.$refs.vuecode, this.modeType)
     // 当输入框内容发生变化 更新value值
     this.vueEditor.on('change', cm => {
       const cmVal = cm.getValue()

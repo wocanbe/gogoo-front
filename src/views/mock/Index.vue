@@ -70,7 +70,7 @@
       </vxe-table-column>
     </vxe-table>
     <el-dialog
-      title="编辑mock代码"
+      title="编辑模拟代码"
       :visible.sync="showForm"
       width="60%"
       center>
@@ -84,7 +84,7 @@
       </span>
     </el-dialog>
     <el-dialog
-      title="运行mock代码"
+      title="运行模拟接口"
       :visible.sync="showTest"
       width="60%"
       center>

@@ -53,12 +53,14 @@
       <vxe-table-column field="path" title="请求路径"></vxe-table-column>
       <vxe-table-column field="method" title="请求方法" :formatter="formatMethod"></vxe-table-column>
       <vxe-table-column field="status" title="状态" :formatter="formatStatus"></vxe-table-column>
+      <vxe-table-column field="intro" title="简介"></vxe-table-column>
       <vxe-table-column type="seq" title="操作">
-        <template v-slot:header>
+        <!-- <template v-slot:header>
           <span class="operate">操作 <i class="fly-add-s" @click="addEvent()" title="添加"></i></span>
-        </template>
+        </template> -->
         <template v-slot="{row}">
-          <i class="operate fly-set" @click="setEvent(row)" title="修改配置"></i>
+          <i class="operate fly-set" @click="editEvent(row)" title="选择"></i>
+          <i class="operate fly-code" @click="codeEvent(row)" title="修改代码"></i>
           <i class="operate fly-play" @click="runEvent(row)" title="运行"></i>
         </template>
       </vxe-table-column>
@@ -68,10 +70,38 @@
       :visible.sync="showForm"
       width="60%"
       center>
-      <codemirror v-model="formData.content"></codemirror>
+      <div class="filename">
+        请求路径: <input type="text" name="mockfile" v-model="formData.path">
+      </div>
+      <div class="filename">
+        请求方法:
+        <el-select v-model="formData.method" placeholder="请选择">
+          <el-option label="GET" value="0"></el-option>
+          <el-option label="POST" value="1"></el-option>
+          <el-option label="PUT" value="2"></el-option>
+          <el-option label="DELETE" value="3"></el-option>
+        </el-select>
+      </div>
+      <div class="filename">
+        简介: <input type="text" name="mockfile" v-model="formData.intro">
+      </div>
+      <div class="filename">
+        要使用的api: <input type="text" name="mockfile" v-model="formData.raws">
+      </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="showForm=false">取 消</el-button>
         <el-button type="primary" @click="saveGql">保 存</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog
+      title="编辑接口代码"
+      :visible.sync="showCode"
+      width="60%"
+      center>
+      <codemirror v-model="codeData.content"></codemirror>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="showCode=false">取 消</el-button>
+        <el-button type="primary" @click="saveCode">保 存</el-button>
       </span>
     </el-dialog>
     <el-dialog
@@ -103,11 +133,18 @@ export default {
     return {
       gqlFiles: [],
       showForm: false,
+      showCode: false,
       isAdd: false,
       isJson: false,
       formData: {
+        path: '',
+        method: 0
+      },
+      codeData: {
         gid: '',
-        content: ''
+        content: '',
+        intro: '',
+        raws: '[]'
       },
       showTest: false,
       testData: {
@@ -129,13 +166,16 @@ export default {
       this.gqlFiles = res
     },
     async saveGql () {
+
+    },
+    async saveCode () {
       const apiName = this.isAdd ? 'addMult' : 'saveMult'
       await this.$ajax(apiName, {
         id: sessionStorage.getItem('serverid'),
-        gid: this.formData.gid,
-        c: this.formData.content
+        gid: this.codeData.gid,
+        c: this.codeData.content
       })
-      this.showForm = false
+      this.showCode = false
     },
     async testGql () {
       const res = await this.$ajax({
@@ -160,17 +200,20 @@ export default {
       // this.formData.content = ''
       // this.showForm = true
     },
-    editEvent () {
-      // this.formData.gid = item.id
-      // this.formData.content = ''
-      // this.showForm = true
-    },
-    setEvent (item) {
-      this.formData.gid = item.id
-      this.formData.content = ''
+    editEvent (item) {
+      this.formData = item
       this.showForm = true
     },
+    codeEvent (item) {
+      this.codeData.gid = item.id
+      this.codeData.content = ''
+      this.showCode = true
+    },
     runEvent (item) {
+      if (item.status === 0) {
+        this.$alert('该接口尚未初始化', '提示')
+        return
+      }
       this.testData.path = item.path
       this.testData.method = methods[item.method]
       this.showTest = true
