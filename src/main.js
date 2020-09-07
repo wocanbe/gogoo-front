@@ -4,6 +4,7 @@ import l7Api from './api'
 import router from './router'
 import store from './store'
 import './plugins/element'
+import './plugins/validate'
 import './assets/common.scss'
 
 Vue.config.productionTip = false

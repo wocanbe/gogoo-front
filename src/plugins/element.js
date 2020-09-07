@@ -12,6 +12,8 @@ import 'element-ui/lib/theme-chalk/dialog.css'
 import 'element-ui/lib/theme-chalk/loading.css'
 import 'element-ui/lib/theme-chalk/message-box.css'
 import 'element-ui/lib/theme-chalk/input.css'
+import 'element-ui/lib/theme-chalk/table.css'
+import 'element-ui/lib/theme-chalk/table-column.css'
 
 Vue.use(Button)
 Vue.use(Dialog)

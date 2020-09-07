@@ -15,13 +15,12 @@ function removeEmpty (data) {
 }
 function addJsonData (data) {
   const userid = sessionStorage.getItem('userid')
-  const token = sessionStorage.getItem('token')
-  const backData = { userid, token }
+  const backData = { userid }
   for (const k in removeEmpty(data)) {
     let v = data[k]
     if (typeof v === 'string' && v.substr(0, 5) === 'vuex.') {
       const path = v.substr(5).split('.')
-      v = path.reduce(function (acc, cur, idx, src) { // 上次结果，当前元素，序号，原数组
+      v = path.reduce(function (acc, cur) {
         return acc[cur]
       }, store.state) // 初始值，如果没有提供，则使用第一个元素
     }
@@ -32,6 +31,12 @@ function addJsonData (data) {
 function reqFiter (req) {
   if (req[1].skipLoading) delete req[1].skipLoading
   else store.commit('setLoading', true)
+  const token = sessionStorage.getItem('token')
+  if (req[0].options.headers) {
+    req[0].options.headers.token = token
+  } else {
+    req[0].options.headers = { token: token }
+  }
   let isJson = true
   const contentType = req[0].options.headers['Content-Type']
   if (contentType && contentType !== 'application/json') isJson = false
@@ -43,7 +48,7 @@ function resFiter (data) {
   if (data.code === 0) return data.data
   else {
     if (data.code === 401) {
-      alert(data.msg)
+      window.alert(data.msg)
       store.commit('login/LOGOUT')
       router.push({ name: 'login' })
       return Promise.resolve()
@@ -56,7 +61,7 @@ function errFiter (err) {
   if (err.message === 'Unauthorized' && err.status === 401) {
     store.commit('login/LOGOUT')
     store.commit('setLoading', false)
-    alert('登陆过期')
+    window.alert('登陆过期')
     router.push({ name: 'login' })
   } else {
     store.commit('setLoading', false)
@@ -90,7 +95,7 @@ const methods = {
           // 保存登录信息
           store.commit('login/LOGIN', res.data)
         } else {
-          alert(res.msg)
+          window.alert(res.msg)
         }
       },
       error (err) {
@@ -102,7 +107,7 @@ const methods = {
     return {
       response (res) {
         if (res.code === 0) {
-          alert('注册成功')
+          window.alert('注册成功')
         } else {
           return Promise.reject(new Error(res.msg))
         }

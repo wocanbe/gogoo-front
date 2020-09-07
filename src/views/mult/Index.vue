@@ -49,15 +49,14 @@
       </ul>
     </div>
     <el-table :data="gqlFiles">
-      <el-table-column field="id" title="ID" width="60"></el-table-column>
-      <el-table-column field="path" title="请求路径"></el-table-column>
-      <el-table-column field="method" title="请求方法" :formatter="formatMethod"></el-table-column>
-      <el-table-column field="status" title="状态" :formatter="formatStatus"></el-table-column>
-      <el-table-column field="intro" title="简介"></el-table-column>
-      <el-table-column type="seq" title="操作">
-        <!-- <template v-slot:header>
+      <el-table-column prop="id" label="ID" width="60"></el-table-column>
+      <el-table-column prop="path" label="请求路径"></el-table-column>
+      <el-table-column prop="method" label="请求方法" :formatter="formatMethod"></el-table-column>
+      <el-table-column prop="status" label="状态" :formatter="formatStatus"></el-table-column>
+      <el-table-column type="seq" label="操作">
+        <template v-slot:header>
           <span class="operate">操作 <i class="fly-add-s" @click="addEvent()" title="添加"></i></span>
-        </template> -->
+        </template>
         <template v-slot="{row}">
           <i class="operate fly-set" @click="editEvent(row)" title="选择"></i>
           <i class="operate fly-code" @click="codeEvent(row)" title="修改代码"></i>
@@ -188,11 +187,11 @@ export default {
       // console.log(this.$refs.result)
       // this.$nextTick(() => this.$refs.result.refresh())
     },
-    formatMethod (item) { // { cellValue, row, column }
-      return methods[item.cellValue]
+    formatMethod (row, column, cellValue) {
+      return methods[cellValue]
     },
-    formatStatus (item) { // { cellValue, row, column }
-      return status[item.cellValue]
+    formatStatus (row, column, cellValue) {
+      return status[cellValue]
     },
     addEvent () {
       // this.isAdd = true

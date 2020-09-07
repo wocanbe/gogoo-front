@@ -21,9 +21,11 @@
           @click="getCheckCode(true)"
         >获取验证码</el-button>
       </el-input>
-      <div class="pd15">
-        <el-button class="login-btn" type="success" @click="onSubmit">登录</el-button>
-        <el-button class="login-btn" type="primary" @click="toReg">免费注册</el-button>
+      <br>
+      <el-button class="login-btn" type="success" @click="onSubmit">登录</el-button>
+      <div class="other">
+        <router-link to="/reg">忘记密码</router-link>
+        <router-link to="/reg">免费注册</router-link>
       </div>
     </div>
   </div>
@@ -62,39 +64,36 @@ export default {
         this.loading = false;
         this.$router.replace('/', () => {})
       } catch (e) {
-        this.$dialog.alert({
+        this.$alert({
           title: '提示',
           message: e.message
         })
       }
-    },
-    toReg () {
-      this.$router.push({
-        path: '/reg'
-      })
     }
   }
 }
 </script>
 <style lang="scss" scoped>
 .login {
-  width: 100%;
+  width: 800px;
   height: 100%;
+  margin: 0 auto;
   position: relative;
-  .bg {
-    opacity: 0.7;
-    filter: blur(0.02778rem);
-  }
   &-form {
     position: absolute;
-    left: 10%;
-    top: 60%;
+    right: 20px;
+    top: 150px;
+    width: 380px;
+    height: 300px;
     z-index: 99;
-    width: 80%;
+    padding: 30px;
     background-color: #fff;
     display: block;
     border-radius: 5px;
     box-shadow: 0 0 6px color("cn", "瓜瓤红");
+    ::v-deep.el-input {
+      margin: 6px 0;
+    }
   }
   .checkcode {
     width: 90PX;
@@ -103,8 +102,16 @@ export default {
     border: none;
   }
   .login-btn {
-    border-radius: 0 0 5px 5px;
-    width: 50%;
+    margin: 6px 0;
+    width: 100%;
+  }
+  .other {
+    text-align: right;
+    a {
+      font-size: 14px;
+      color: gray;
+      margin-left: 12px;
+    }
   }
 }
 </style>

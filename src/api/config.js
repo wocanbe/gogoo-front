@@ -1,49 +1,49 @@
 import methods from './methods'
 const list = {
-  checkcode: 'checkcode',
+  checkcode: 'api/checkcode',
   login: {
     method: 'post',
-    url: 'login'
+    url: 'api/login'
   },
   reg: {
     method: 'post',
-    url: 'reg'
+    url: 'api/reg'
   },
   getMockList: {
     method: 'get',
-    url: 'manage/list'
+    url: 'quick/manage'
   },
   addMock: {
     method: 'post',
-    url: 'manage/add'
+    url: 'quick/manage'
   },
   saveMock: {
-    method: 'post',
-    url: 'manage/save'
+    method: 'put',
+    url: 'quick/manage'
   },
   getGqlList: {
     method: 'get',
-    url: 'gql/list'
+    url: 'quick/gql'
   },
   addGql: {
     method: 'post',
-    url: 'gql/add'
+    url: 'quick/gql'
   },
   saveGql: {
-    method: 'post',
-    url: 'gql/save'
+    method: 'put',
+    url: 'quick/gql'
   },
   getMultList: {
     method: 'get',
-    url: 'gqls/list'
+    url: 'quick/gqls'
   },
   addMult: {
     method: 'post',
-    url: 'gqls/add'
+    url: 'quick/gqls'
   },
   saveMult: {
-    method: 'post',
-    url: 'gqls/save'
+    method: 'put',
+    url: 'quick/gqls'
   }
 }
 

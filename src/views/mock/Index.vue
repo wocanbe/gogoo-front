@@ -56,9 +56,9 @@
       </ul>
     </div>
     <el-table :data="mockFiles">
-      <el-table-column type="seq" title="序号" width="60"></el-table-column>
-      <el-table-column field="path" title="文件名"></el-table-column>
-      <el-table-column type="seq" title="操作">
+      <el-table-column type="index" label="序号" width="60"></el-table-column>
+      <el-table-column prop="path" label="文件名"></el-table-column>
+      <el-table-column type="seq" label="操作">
         <template v-slot:header>
           <span class="operate">操作 <i class="fly-add-s" @click="addEvent()" title="添加"></i></span>
         </template>
