@@ -1,5 +1,18 @@
 @import 'color';
-$bgColor: $荷花白;
-$titleColor: $金莲花橙;
-$subColor: $胭脂红;
-$textColor: $花青;
+$bgColor: color("cn", "荷花白");
+$titleColor: color("cn", "金莲花橙");
+$subColor: color("cn", "胭脂红");
+$textColor: color("cn", "花青");
+
+.c1 {
+  color: $bgColor;
+}
+.c2 {
+  color: $titleColor;
+}
+.c3 {
+  color: $subColor;
+}
+.c4 {
+  color: $textColor;
+}

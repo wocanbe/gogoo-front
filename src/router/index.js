@@ -33,9 +33,14 @@ const routes = [
         component: () => import(/* webpackChunkName: "component" */ '../views/single/Index.vue')
       }
     ]
-  },{
+  },
+  {
     path: '/login',
     name: 'login',
+    meta: {
+      title: '登陆',
+      nouser: true // 不需要登录
+    },
     component: Login
   }
 ]
@@ -50,7 +55,7 @@ const router = new VueRouter({
 router.beforeEach(async (to, from, next) => {
   const token = sessionStorage.getItem('token')
   if (token === null) {
-    if (to.path === '/login' || to.path === '/reg') {
+    if (to.meta.nouser) {
       store.commit('clean') // 进入新页面，清除上个页面的页面状态(error,loading等)
       document.title = to.meta.title
       next()

@@ -53,9 +53,16 @@ function resFiter (data) {
   }
 }
 function errFiter (err) {
-  store.commit('setLoading', false)
-  store.commit('setErrMsg', err.message)
-  throw err
+  if (err.message === 'Unauthorized' && err.status === 401) {
+    store.commit('login/LOGOUT')
+    store.commit('setLoading', false)
+    alert('登陆过期')
+    router.push({ name: 'login' })
+  } else {
+    store.commit('setLoading', false)
+    store.commit('setErrMsg', err.message)
+    throw err
+  }
 }
 const methods = {
   _ () { // interceptors用于实现对request和respone的拦截

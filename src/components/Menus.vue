@@ -48,11 +48,11 @@ export default {
   &-title {
     padding: 10px 16px;
     overflow: hidden;
-    color: $景泰蓝;
+    color: color("cn", "景泰蓝");
     font-size: 14px;
     line-height: 24px;
-    background-color: $象牙白;
-    border-bottom: 1px solid $珍珠灰;
+    background-color: color("cn", "象牙白");
+    border-bottom: 1px solid color("cn", "珍珠灰");
   }
   .nav-sub {
     width: 100%;
@@ -61,19 +61,19 @@ export default {
       position: relative;
       display: block;
       padding: 8px 16px;
-      color: $瀑布蓝;
+      color: color("cn", "瀑布蓝");
       font-size: 13px;
       line-height: 1.5;
-      background-color: $象牙白;
+      background-color: color("cn", "象牙白");
       &.on {
-        background: $瀑布蓝;
-        color: $象牙白;
+        background: color("cn", "瀑布蓝");
+        color: color("cn", "象牙白");
       }
     }
   }
   &.on {
-    background: $景泰蓝;
-    color: $象牙白;
+    background: color("cn", "景泰蓝");
+    color: color("cn", "象牙白");
   }
 }
 </style>

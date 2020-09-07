@@ -1,8 +1,8 @@
 <style lang="scss" scoped>
 .info {
-  color: $云山蓝;
+  color: color("cn", "云山蓝");
   text-align: left;
-  background-color: $井天蓝;
+  background-color: color("cn", "井天蓝");
   border-radius: 8px;
   padding: 12px;
   font-size: 14px;
@@ -55,10 +55,10 @@
         </li>
       </ul>
     </div>
-    <vxe-table :data="mockFiles">
-      <vxe-table-column type="seq" title="序号" width="60"></vxe-table-column>
-      <vxe-table-column field="path" title="文件名"></vxe-table-column>
-      <vxe-table-column type="seq" title="操作">
+    <el-table :data="mockFiles">
+      <el-table-column type="seq" title="序号" width="60"></el-table-column>
+      <el-table-column field="path" title="文件名"></el-table-column>
+      <el-table-column type="seq" title="操作">
         <template v-slot:header>
           <span class="operate">操作 <i class="fly-add-s" @click="addEvent()" title="添加"></i></span>
         </template>
@@ -67,8 +67,8 @@
           <!-- <i class="operate fly-del" @click="delEvent(row)" title="删除"></i> -->
           <i class="operate fly-play" @click="runEvent(row)" title="运行"></i>
         </template>
-      </vxe-table-column>
-    </vxe-table>
+      </el-table-column>
+    </el-table>
     <el-dialog
       title="编辑模拟代码"
       :visible.sync="showForm"

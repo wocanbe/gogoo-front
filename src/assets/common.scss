@@ -92,11 +92,5 @@ a {
 }
 
 .operate {
-  color: $釉蓝;
-}
-
-.el-icon-close:before {
-  font-family: "fly";
-  font-style: normal;
-  content: '\e809';
+  color: color("cn", "釉蓝");
 }
