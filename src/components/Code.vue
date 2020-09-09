@@ -40,9 +40,9 @@ export default {
     this.vueEditor.on('change', cm => {
       const cmVal = cm.getValue()
       this.cmVal = cmVal
-      this.$emit('changed', cmVal);
-      this.$emit('input', cmVal);
-    });
+      this.$emit('changed', cmVal)
+      this.$emit('input', cmVal)
+    })
     this.$nextTick(() => {
       this.refresh() // 手动触发刷新
     })
@@ -52,7 +52,11 @@ export default {
       this.vueEditor && this.vueEditor.refresh()
     },
     setVal (val) {
-      this.vueEditor && this.vueEditor.setValue(val);
+      if (this.vueEditor) {
+        let useVal = val
+        if (this.mode === 'json') useVal = JSON.stringify(val, null, 2)
+        this.vueEditor.setValue(useVal)
+      }
     }
   }
 }

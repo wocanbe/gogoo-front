@@ -58,14 +58,14 @@ function resFiter (data) {
   }
 }
 function errFiter (err) {
-  if (err.message === 'Unauthorized' && err.status === 401) {
+  if (err.message === 'Unauthorized' && err.status === 401 && err.response.data === '用户登录过期') {
     store.commit('login/LOGOUT')
     store.commit('setLoading', false)
     window.alert('登陆过期')
     router.push({ name: 'login' })
   } else {
     store.commit('setLoading', false)
-    store.commit('setErrMsg', err.message)
+    store.commit('setErrMsg', err.response.data || err.message)
     throw err
   }
 }

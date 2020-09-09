@@ -61,13 +61,13 @@ export default {
         await this.$validate(this.loginData)
         this.loading = true
         await this.$ajax('login', this.loginData)
+        const res = await this.$ajax('getServe')
+        sessionStorage.setItem('serverid', res[0].id)
+        sessionStorage.setItem('serverpath', res[0].path)
         this.loading = false;
         this.$router.replace('/', () => {})
       } catch (e) {
-        this.$alert({
-          title: '提示',
-          message: e.message
-        })
+        this.$alert(e.message, '提示')
       }
     }
   }

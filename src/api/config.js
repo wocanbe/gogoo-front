@@ -9,22 +9,17 @@ const list = {
     method: 'post',
     url: 'api/reg'
   },
-  getMockList: {
-    method: 'get',
-    url: 'quick/manage'
-  },
+  getServe: 'quick/serve',
+  getMockList: 'quick/mock',
   addMock: {
     method: 'post',
-    url: 'quick/manage'
+    url: 'quick/mock'
   },
   saveMock: {
     method: 'put',
-    url: 'quick/manage'
+    url: 'quick/mock'
   },
-  getGqlList: {
-    method: 'get',
-    url: 'quick/gql'
-  },
+  getGqlList: 'quick/gql',
   addGql: {
     method: 'post',
     url: 'quick/gql'
@@ -33,10 +28,7 @@ const list = {
     method: 'put',
     url: 'quick/gql'
   },
-  getMultList: {
-    method: 'get',
-    url: 'quick/gqls'
-  },
+  getMultList: 'quick/gqls',
   addMult: {
     method: 'post',
     url: 'quick/gqls'

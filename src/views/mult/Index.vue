@@ -41,13 +41,6 @@
 </style>
 <template>
   <div>
-    <div class="info">
-      <h3><i class="fly-info"></i>提示</h3>
-      <ul>
-        <li>1、 接口文件保存以后，将不会再展示代码，请提前备份好代码</li>
-        <li>2、 接口文件，代码中不要出现require语句，为了方便，代码会自动引入接口js，可以直接使用</li>
-      </ul>
-    </div>
     <el-table :data="gqlFiles">
       <el-table-column prop="id" label="ID" width="60"></el-table-column>
       <el-table-column prop="path" label="请求路径"></el-table-column>
@@ -58,7 +51,7 @@
           <span class="operate">操作 <i class="fly-add-s" @click="addEvent()" title="添加"></i></span>
         </template>
         <template v-slot="{row}">
-          <i class="operate fly-set" @click="editEvent(row)" title="选择"></i>
+          <i class="operate fly-set" @click="editEvent(row)" title="编辑"></i>
           <i class="operate fly-code" @click="codeEvent(row)" title="修改代码"></i>
           <i class="operate fly-play" @click="runEvent(row)" title="运行"></i>
         </template>
@@ -69,6 +62,13 @@
       :visible.sync="showForm"
       width="60%"
       center>
+      <div class="info">
+        <h3><i class="fly-info"></i>提示</h3>
+        <ul>
+          <li>1、 接口文件保存以后，将不会再展示代码，请提前备份好代码</li>
+          <li>2、 接口文件，代码中不要出现require语句，为了方便，代码会自动引入接口js，可以直接使用</li>
+        </ul>
+      </div>
       <div class="filename">
         请求路径: <input type="text" name="mockfile" v-model="formData.path">
       </div>
@@ -178,7 +178,7 @@ export default {
     },
     async testGql () {
       const res = await this.$ajax({
-        url: 'http://localhost:3001/gqls/' + this.testData.path,
+        url: '/gql/gqls/' + sessionStorage.getItem('serverpath') + '/' + this.testData.path,
         method: this.testData.method,
         isCros: true
       }, JSON.parse(this.testData.req))
