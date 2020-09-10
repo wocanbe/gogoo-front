@@ -41,7 +41,7 @@
 </style>
 <template>
   <div>
-    <el-table :data="gqlFiles">
+    <el-table :data="gqls">
       <el-table-column prop="id" label="ID" width="60"></el-table-column>
       <el-table-column prop="path" label="请求路径"></el-table-column>
       <el-table-column prop="method" label="请求方法" :formatter="formatMethod"></el-table-column>
@@ -62,7 +62,7 @@
       :show.sync="showForm"
       @confirm="saveGql">
       <div class="filename" v-if="isAdd">
-        请求路径: <input type="text" name="mockfile" v-model="formData.path">
+        请求路径: <input type="text" name="path" v-model="formData.path">
       </div>
       <div class="filename">
         请求方法:
@@ -74,10 +74,10 @@
         </el-select>
       </div>
       <div class="filename">
-        简介: <input type="text" name="mockfile" v-model="formData.intro">
+        简介: <input type="text" name="intro" v-model="formData.intro">
       </div>
       <div class="filename">
-        要使用的api: <input type="text" name="mockfile" v-model="formData.raws">
+        要使用的api: <el-transfer :titles="['未选项', '已选项']" v-model="formData.raws" :data="gql"></el-transfer>
       </div>
     </my-dialog>
     <my-dialog
@@ -115,7 +115,8 @@ export default {
   },
   data () {
     return {
-      gqlFiles: [],
+      gqls: [],
+      gql: [],
       showForm: false,
       isAdd: false,
       formData: {
@@ -123,7 +124,7 @@ export default {
         path: '',
         method: 0,
         intro: '',
-        raws: '[]'
+        raws: []
       },
       showCode: false,
       codeData: {
@@ -145,7 +146,16 @@ export default {
       const res = await this.$ajax('getMultList', {
         id: sessionStorage.getItem('serverid')
       })
-      this.gqlFiles = res
+      this.gqls = res
+      const gql = await this.$ajax('getGqlList', {
+        id: sessionStorage.getItem('serverid')
+      })
+      this.gql = gql.map(item => {
+        return {
+          key: item.id,
+          label: item.intro
+        }
+      })
     },
     async saveGql () {
       let apiName
@@ -187,7 +197,7 @@ export default {
         path: '',
         method: 0,
         intro: '',
-        raws: '[]'
+        raws: []
       }
       this.showForm = true
     },

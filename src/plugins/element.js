@@ -10,7 +10,9 @@ import Select from 'element-ui/lib/select'
 import Option from 'element-ui/lib/option'
 import Alert from 'element-ui/lib/alert'
 import Popover from 'element-ui/lib/popover'
+import Transfer from 'element-ui/lib/transfer'
 
+import 'element-ui/lib/theme-chalk/icon.css'
 import 'element-ui/lib/theme-chalk/button.css'
 import 'element-ui/lib/theme-chalk/dialog.css'
 import 'element-ui/lib/theme-chalk/loading.css'
@@ -22,6 +24,7 @@ import 'element-ui/lib/theme-chalk/select.css'
 import 'element-ui/lib/theme-chalk/option.css'
 import 'element-ui/lib/theme-chalk/alert.css'
 import 'element-ui/lib/theme-chalk/popover.css'
+import 'element-ui/lib/theme-chalk/transfer.css'
 
 Vue.use(Button)
 Vue.use(Dialog)
@@ -32,6 +35,7 @@ Vue.use(Select)
 Vue.use(Option)
 Vue.use(Alert)
 Vue.use(Popover)
+Vue.use(Transfer)
 /* 
  * 或写为
  * Vue.component(Dialog.name, Dialog)
