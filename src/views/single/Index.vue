@@ -51,16 +51,22 @@
           <span class="operate">操作 <i class="fly-add-s" @click="addEvent()" title="添加"></i></span>
         </template>
         <template v-slot="{row}">
+          <i class="operate fly-edit" @click="editEvent(row)" title="编辑"></i>
           <i class="operate fly-code" @click="codeEvent(row)" title="修改代码"></i>
-          <i class="operate fly-play" @click="runEvent(row)" title="运行"></i>
+          <i class="operate fly-play" v-if="row.status===1" @click="runEvent(row)" title="运行"></i>
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog
-      title="编辑接口配置"
-      :visible.sync="showForm"
-      width="60%"
-      center>
+
+    <my-dialog title="编辑接口" :show.sync="showForm" @confirm="saveGql">
+      <div class="filename" v-if="isAdd">
+        <el-input type="text" name="apipath" placeholder="接口请求路径" v-model="formData.url"></el-input>
+      </div>
+      <div class="filename">
+        <el-input type="textarea" name="apipath" placeholder="接口简介" v-model="formData.intro"></el-input>
+      </div>
+    </my-dialog>
+    <my-dialog title="编辑代码" @confirm="saveCode" :show.sync="showCode">
       <div class="info">
         <h3><i class="fly-info"></i>提示</h3>
         <ul>
@@ -68,53 +74,46 @@
           <li>2、 接口文件，代码中不要出现require语句，为了方便，代码会自动引入接口js，可以直接使用</li>
         </ul>
       </div>
-      <codemirror v-model="formData.content"></codemirror>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="showForm=false">取 消</el-button>
-        <el-button type="primary" @click="saveGql">保 存</el-button>
-      </span>
-    </el-dialog>
-    <el-dialog
-      title="运行接口"
-      :visible.sync="showTest"
-      width="60%"
-      center>
-      <div class="filename">
-        请求方法: {{testData.method}}
-      </div>
-      <div class="filename">请求参数</div>
-      <codemirror v-model="testData.req" mode="json" height="150px"></codemirror>
-      <div class="btn">
-        <el-button type="primary" @click="testGql">测 试</el-button>
-      </div>
-      <div class="filename">返回参数</div>
-      <codemirror ref="result" v-model="testData.res" mode="other" height="150px"></codemirror>
-    </el-dialog>
+      <codemirror v-model="codeData.content"></codemirror>
+    </my-dialog>
+    <run-code
+      v-model="showTest"
+      prefix="/gql/gql/"
+      :url="this.testData.path"
+      :method="testData.method"></run-code>
   </div>
 </template>
 <script>
 import codemirror from '@/components/Code'
+import myDialog from '@/components/Dialog'
+import runCode from '@/components/RunCode'
 const methods = ['GET', 'POST', 'PUT', 'DELETE']
 const status = ['未初始化', '正常']
 export default {
   name: 'gql',
-  components: {codemirror},
+  components: {
+    codemirror,
+    myDialog,
+    runCode
+  },
   data () {
     return {
       gqlFiles: [],
       showForm: false,
-      isAdd: false,
-      isJson: false,
+      isAdd: true,
       formData: {
-        gid: '',
+        url: '',
+        intro: ''
+      },
+      showCode: false,
+      codeData: {
+        id: '',
         content: ''
       },
       showTest: false,
       testData: {
         path: '',
-        method: '',
-        req: '{}',
-        res: ''
+        method: ''
       }
     }
   },
@@ -129,23 +128,29 @@ export default {
       this.gqlFiles = res
     },
     async saveGql () {
-      const apiName = this.isAdd ? 'addGql' : 'saveGql'
-      await this.$ajax(apiName, {
-        id: sessionStorage.getItem('serverid'),
-        gid: this.formData.gid,
-        c: this.formData.content
-      })
+      let apiName
+      let params = {}
+      if (this.isAdd) {
+        apiName = 'addGql'
+        params['id'] = sessionStorage.getItem('serverid')
+        params['p'] = this.formData.url
+        params['i'] = this.formData.intro
+      } else {
+        apiName = 'saveGql'
+        params['id'] = this.formData.id
+        params['i'] = this.formData.intro
+      }
+      await this.$ajax(apiName, params)
+      this.getList()
       this.showForm = false
     },
-    async testGql () {
-      const res = await this.$ajax({
-        url: '/gql/gql/' + this.testData.path,
-        method: this.testData.method
-      }, JSON.parse(this.testData.req))
-      this.testData.res = res
-      this.$refs.result.setVal(JSON.stringify(res))
-      // console.log(this.$refs.result)
-      // this.$nextTick(() => this.$refs.result.refresh())
+    async saveCode () {
+      await this.$ajax('saveGql', {
+        id: this.codeData.id,
+        c: this.codeData.content
+      })
+      this.getList()
+      this.showCode = false
     },
     formatMethod (row, column, cellValue) { // Function(row, column, cellValue, index)
       return methods[cellValue]
@@ -154,15 +159,20 @@ export default {
       return status[cellValue]
     },
     addEvent () {
-      // this.isAdd = true
-      // this.formData.gid = ''
-      // this.formData.content = ''
-      // this.showForm = true
+      this.formData.url = ''
+      this.formData.intro = ''
+      this.isAdd = true
+      this.showForm = true
+    },
+    editEvent (item) {
+      this.formData = Object.assign({}, item)
+      this.isAdd = false
+      this.showForm = true
     },
     codeEvent (item) {
-      this.formData.gid = item.id
-      this.formData.content = ''
-      this.showForm = true
+      this.codeData.id = item.id
+      this.codeData.content = ''
+      this.showCode = true
     },
     runEvent (item) {
       if (item.status === 0) {

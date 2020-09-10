@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="运行模拟接口"
+    title="运行接口"
     :visible="value"
     @close="toCancel"
     width="60%"
