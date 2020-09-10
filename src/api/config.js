@@ -28,6 +28,10 @@ const list = {
     method: 'put',
     url: 'quick/gql'
   },
+  saveGqlCode: {
+    method: 'put',
+    url: 'quick/gql/code'
+  },
   getMultList: 'quick/gqls',
   addMult: {
     method: 'post',
@@ -36,6 +40,10 @@ const list = {
   saveMult: {
     method: 'put',
     url: 'quick/gqls'
+  },
+  saveMultCode: {
+    method: 'put',
+    url: 'quick/gqls/code'
   }
 }
 

@@ -53,32 +53,24 @@
         <template v-slot="{row}">
           <i class="operate fly-set" @click="editEvent(row)" title="编辑"></i>
           <i class="operate fly-code" @click="codeEvent(row)" title="修改代码"></i>
-          <i class="operate fly-play" @click="runEvent(row)" title="运行"></i>
+          <i v-if="row.status==1" class="operate fly-play" @click="runEvent(row)" title="运行"></i>
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog
+    <my-dialog
       title="编辑接口配置"
-      :visible.sync="showForm"
-      width="60%"
-      center>
-      <div class="info">
-        <h3><i class="fly-info"></i>提示</h3>
-        <ul>
-          <li>1、 接口文件保存以后，将不会再展示代码，请提前备份好代码</li>
-          <li>2、 接口文件，代码中不要出现require语句，为了方便，代码会自动引入接口js，可以直接使用</li>
-        </ul>
-      </div>
-      <div class="filename">
+      :show.sync="showForm"
+      @confirm="saveGql">
+      <div class="filename" v-if="isAdd">
         请求路径: <input type="text" name="mockfile" v-model="formData.path">
       </div>
       <div class="filename">
         请求方法:
         <el-select v-model="formData.method" placeholder="请选择">
-          <el-option label="GET" value="0"></el-option>
-          <el-option label="POST" value="1"></el-option>
-          <el-option label="PUT" value="2"></el-option>
-          <el-option label="DELETE" value="3"></el-option>
+          <el-option label="GET" :value="0"></el-option>
+          <el-option label="POST" :value="1"></el-option>
+          <el-option label="PUT" :value="2"></el-option>
+          <el-option label="DELETE" :value="3"></el-option>
         </el-select>
       </div>
       <div class="filename">
@@ -87,70 +79,61 @@
       <div class="filename">
         要使用的api: <input type="text" name="mockfile" v-model="formData.raws">
       </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="showForm=false">取 消</el-button>
-        <el-button type="primary" @click="saveGql">保 存</el-button>
-      </span>
-    </el-dialog>
-    <el-dialog
+    </my-dialog>
+    <my-dialog
       title="编辑接口代码"
-      :visible.sync="showCode"
-      width="60%"
-      center>
-      <codemirror v-model="codeData.content"></codemirror>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="showCode=false">取 消</el-button>
-        <el-button type="primary" @click="saveCode">保 存</el-button>
-      </span>
-    </el-dialog>
-    <el-dialog
-      title="运行接口"
-      :visible.sync="showTest"
-      width="60%"
-      center>
-      <div class="filename">
-        请求方法: {{testData.method}}
+      :show.sync="showCode"
+      @confirm="saveCode">
+      <div class="info">
+        <h3><i class="fly-info"></i>提示</h3>
+        <ul>
+          <li>1、 接口文件保存以后，将不会再展示代码，请提前备份好代码</li>
+          <li>2、 接口文件，代码中不要出现require语句，为了方便，代码会自动引入接口js，可以直接使用</li>
+        </ul>
       </div>
-      <div class="filename">请求参数</div>
-      <codemirror v-model="testData.req" mode="json" height="150px"></codemirror>
-      <div class="btn">
-        <el-button type="primary" @click="testGql">测 试</el-button>
-      </div>
-      <div class="filename">返回参数</div>
-      <codemirror ref="result" v-model="testData.res" mode="other" height="150px"></codemirror>
-    </el-dialog>
+      <codemirror ref="code" v-model="codeData.content"></codemirror>
+    </my-dialog>
+    <run-code
+      v-model="showTest"
+      prefix="/gql/gqls/"
+      :url="this.testData.path"
+      :method="testData.method"></run-code>
   </div>
 </template>
 <script>
 import codemirror from '@/components/Code'
+import myDialog from '@/components/Dialog'
+import runCode from '@/components/RunCode'
 const methods = ['GET', 'POST', 'PUT', 'DELETE']
 const status = ['未初始化', '正常']
 export default {
   name: 'gqls',
-  components: {codemirror},
+  components: {
+    codemirror,
+    myDialog,
+    runCode
+  },
   data () {
     return {
       gqlFiles: [],
       showForm: false,
-      showCode: false,
       isAdd: false,
-      isJson: false,
       formData: {
+        id: null,
         path: '',
-        method: 0
-      },
-      codeData: {
-        gid: '',
-        content: '',
+        method: 0,
         intro: '',
         raws: '[]'
+      },
+      showCode: false,
+      codeData: {
+        id: '',
+        content: ''
       },
       showTest: false,
       testData: {
         path: '',
-        method: '',
-        req: '{}',
-        res: ''
+        method: ''
       }
     }
   },
@@ -165,27 +148,31 @@ export default {
       this.gqlFiles = res
     },
     async saveGql () {
-
+      let apiName
+      let params = {
+        method: this.formData.method,
+        intro: this.formData.intro,
+        raws: this.formData.raws
+      }
+      if (this.isAdd) {
+        apiName = 'addMult'
+        params['id'] = sessionStorage.getItem('serverid')
+        params['path'] = this.formData.path
+      } else {
+        apiName = 'saveMult'
+        params['id'] = this.formData.id
+      }
+      await this.$ajax(apiName, params)
+      this.getList()
+      this.showForm = false
     },
     async saveCode () {
-      const apiName = this.isAdd ? 'addMult' : 'saveMult'
-      await this.$ajax(apiName, {
-        id: sessionStorage.getItem('serverid'),
-        gid: this.codeData.gid,
+      await this.$ajax('saveMultCode', {
+        id: this.codeData.id,
         c: this.codeData.content
       })
+      this.getList()
       this.showCode = false
-    },
-    async testGql () {
-      const res = await this.$ajax({
-        url: '/gql/gqls/' + sessionStorage.getItem('serverpath') + '/' + this.testData.path,
-        method: this.testData.method,
-        isCros: true
-      }, JSON.parse(this.testData.req))
-      this.testData.res = res
-      this.$refs.result.setVal(JSON.stringify(res))
-      // console.log(this.$refs.result)
-      // this.$nextTick(() => this.$refs.result.refresh())
     },
     formatMethod (row, column, cellValue) {
       return methods[cellValue]
@@ -194,19 +181,28 @@ export default {
       return status[cellValue]
     },
     addEvent () {
-      // this.isAdd = true
-      // this.formData.gid = ''
-      // this.formData.content = ''
-      // this.showForm = true
+      this.isAdd = true
+      this.formData = {
+        id: null,
+        path: '',
+        method: 0,
+        intro: '',
+        raws: '[]'
+      }
+      this.showForm = true
     },
     editEvent (item) {
+      this.isAdd = false
       this.formData = item
       this.showForm = true
     },
     codeEvent (item) {
-      this.codeData.gid = item.id
+      this.codeData.id = item.id
       this.codeData.content = ''
       this.showCode = true
+      this.$nextTick(() => {
+        this.$refs.code.setVal('')
+      })
     },
     runEvent (item) {
       if (item.status === 0) {

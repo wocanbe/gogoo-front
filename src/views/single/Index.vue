@@ -66,7 +66,7 @@
         <el-input type="textarea" name="apipath" placeholder="接口简介" v-model="formData.intro"></el-input>
       </div>
     </my-dialog>
-    <my-dialog title="编辑代码" @confirm="saveCode" :show.sync="showCode">
+    <my-dialog title="编辑代码" :show.sync="showCode" @confirm="saveCode">
       <div class="info">
         <h3><i class="fly-info"></i>提示</h3>
         <ul>
@@ -74,7 +74,7 @@
           <li>2、 接口文件，代码中不要出现require语句，为了方便，代码会自动引入接口js，可以直接使用</li>
         </ul>
       </div>
-      <codemirror v-model="codeData.content"></codemirror>
+      <codemirror ref="code" v-model="codeData.content"></codemirror>
     </my-dialog>
     <run-code
       v-model="showTest"
@@ -129,23 +129,23 @@ export default {
     },
     async saveGql () {
       let apiName
-      let params = {}
+      let params = {
+        i: this.formData.intro
+      }
       if (this.isAdd) {
         apiName = 'addGql'
         params['id'] = sessionStorage.getItem('serverid')
         params['p'] = this.formData.url
-        params['i'] = this.formData.intro
       } else {
         apiName = 'saveGql'
         params['id'] = this.formData.id
-        params['i'] = this.formData.intro
       }
       await this.$ajax(apiName, params)
       this.getList()
       this.showForm = false
     },
     async saveCode () {
-      await this.$ajax('saveGql', {
+      await this.$ajax('saveGqlCode', {
         id: this.codeData.id,
         c: this.codeData.content
       })
@@ -173,6 +173,9 @@ export default {
       this.codeData.id = item.id
       this.codeData.content = ''
       this.showCode = true
+      this.$nextTick(() => {
+        this.$refs.code.setVal('')
+      })
     },
     runEvent (item) {
       if (item.status === 0) {
