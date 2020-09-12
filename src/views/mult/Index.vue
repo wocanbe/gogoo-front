@@ -1,17 +1,4 @@
 <style lang="scss" scoped>
-.info {
-  color: color("cn", "云山蓝");
-  text-align: left;
-  background-color: color("cn", "井天蓝");
-  border-radius: 8px;
-  padding: 12px;
-  font-size: 14px;
-  line-height: 21px;
-  margin-bottom: 15px;
-  p {
-    text-indent: 2em;
-  }
-}
 .filename {
   margin: 15px 0;
   input {
@@ -84,7 +71,7 @@
       title="编辑接口代码"
       :show.sync="showCode"
       @confirm="saveCode">
-      <div class="info">
+      <div class="tip-info">
         <h3><i class="fly-info"></i>安全提示</h3>
         <ul>
           <li>1、 代码保存以后，将不会再展示代码，请提前备份好代码</li>

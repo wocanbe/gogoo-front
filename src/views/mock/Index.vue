@@ -1,17 +1,4 @@
 <style lang="scss" scoped>
-.info {
-  color: color("cn", "云山蓝");
-  text-align: left;
-  background-color: color("cn", "井天蓝");
-  border-radius: 8px;
-  padding: 12px;
-  font-size: 14px;
-  line-height: 21px;
-  margin-bottom: 15px;
-  p {
-    text-indent: 2em;
-  }
-}
 .filename {
   margin: 15px 0;
 }
@@ -20,7 +7,7 @@
   <div>
     <el-table :data="mockFiles">
       <el-table-column prop="id" label="ID" width="60"></el-table-column>
-      <el-table-column prop="path" label="文件名">
+      <el-table-column prop="file" label="文件名">
         <template v-slot:header>
           文件名
           <el-popover
@@ -49,7 +36,7 @@
       </div>
     </my-dialog>
     <my-dialog title="编辑模拟代码" :show.sync="showCode" @confirm="saveMock">
-      <div class="info">
+      <div class="tip-info">
         <h3><i class="fly-info"></i>提示</h3>
         <ul>
           <li>1、 基于安全考虑，模拟数据文件保存以后，将不会再展示代码，请提前备份好代码</li>
@@ -140,9 +127,9 @@ export default {
     },
     codeEvent (item) {
       this.formData.id = item.id
-      this.formData.file = item.path
+      this.formData.file = item.file
       this.formData.content = ''
-      if (item.path.substr(-5) === '.json') {
+      if (item.file.substr(-5) === '.json') {
         this.codeType = 'json'
       } else {
         this.codeType = 'js'
@@ -154,8 +141,8 @@ export default {
     },
     runEvent (item) {
       let mockPath
-      if (item.path.substr(-5) === '.json') {
-        mockPath = item.path.slice(0,-5)
+      if (item.file.substr(-5) === '.json') {
+        mockPath = item.file.slice(0,-5)
         if (mockPath.substr(-4) === '_get') {
           mockPath = mockPath.slice(0,-4)
           this.testData.method = 'get'
@@ -173,7 +160,7 @@ export default {
         }
       } else {
         this.testData.method = ''
-        mockPath = item.path.slice(0,-3)
+        mockPath = item.file.slice(0,-3)
       }
       this.testData.path = mockPath
       this.showTest = true

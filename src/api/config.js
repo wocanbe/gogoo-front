@@ -10,6 +10,10 @@ const list = {
     url: 'api/reg'
   },
   getServe: 'quick/serve',
+  saveServe: {
+    method: 'put',
+    url: 'quick/serve'
+  },
   getMockList: 'quick/mock',
   addMock: {
     method: 'post',

@@ -17,14 +17,18 @@
 import myMenus from '../components/Menus'
 const menus = [{
   id: '1',
+  title: '服务器设置',
+  path: '/server'
+}, {
+  id: '2',
   title: '模拟接口',
   path: '/mock'
 }, {
-  id: '2',
+  id: '3',
   title: '单个接口转发',
   path: '/single'
 }, {
-  id: '3',
+  id: '4',
   title: '组合接口转发',
   path: '/mult'
 }]

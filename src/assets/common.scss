@@ -94,3 +94,19 @@ a {
 .operate {
   color: color("cn", "釉蓝");
 }
+.tip-info {
+  color: color("cn", "云山蓝");
+  text-align: left;
+  background-color: color("cn", "井天蓝");
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 14px;
+  line-height: 21px;
+  margin-bottom: 15px;
+  p {
+    text-indent: 2em;
+  }
+}
+.el-form-item__content {
+  text-align: left;
+}

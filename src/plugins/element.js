@@ -11,6 +11,8 @@ import Option from 'element-ui/lib/option'
 import Alert from 'element-ui/lib/alert'
 import Popover from 'element-ui/lib/popover'
 import Transfer from 'element-ui/lib/transfer'
+import Form from 'element-ui/lib/form'
+import FormItem from 'element-ui/lib/form-item'
 import Switch from 'element-ui/lib/switch'
 
 import 'element-ui/lib/theme-chalk/icon.css'
@@ -26,6 +28,8 @@ import 'element-ui/lib/theme-chalk/option.css'
 import 'element-ui/lib/theme-chalk/alert.css'
 import 'element-ui/lib/theme-chalk/popover.css'
 import 'element-ui/lib/theme-chalk/transfer.css'
+import 'element-ui/lib/theme-chalk/form.css'
+import 'element-ui/lib/theme-chalk/form-item.css'
 import 'element-ui/lib/theme-chalk/switch.css'
 
 Vue.use(Button)
@@ -38,6 +42,8 @@ Vue.use(Option)
 Vue.use(Alert)
 Vue.use(Popover)
 Vue.use(Transfer)
+Vue.use(Form)
+Vue.use(FormItem)
 Vue.use(Switch)
 
 /* 

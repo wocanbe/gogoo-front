@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store'
 import Main from '../views/Main.vue'
-import Home from '../views/Home.vue'
+import Server from '../views/Server.vue'
 import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
@@ -14,23 +14,39 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'Home',
-        component: Home
+        redirect: '/server'
+      },
+      {
+        path: '/server',
+        name: 'Server',
+        meta: {
+          title: '服务器信息'
+        },
+        component: Server
       },
       {
         path: '/mock',
         name: 'Mock',
+        meta: {
+          title: '模拟接口管理'
+        },
         component: () => import(/* webpackChunkName: "component" */ '../views/mock/Index.vue')
-      },
-      {
-        path: '/mult',
-        name: 'Mult',
-        component: () => import(/* webpackChunkName: "component" */ '../views/mult/Index.vue')
       },
       {
         path: '/single',
         name: 'Single',
+        meta: {
+          title: '接口管理'
+        },
         component: () => import(/* webpackChunkName: "component" */ '../views/single/Index.vue')
+      },
+      {
+        path: '/mult',
+        name: 'Mult',
+        meta: {
+          title: '组合接口管理'
+        },
+        component: () => import(/* webpackChunkName: "component" */ '../views/mult/Index.vue')
       }
     ]
   },
