@@ -52,15 +52,15 @@
       <div class="info">
         <h3><i class="fly-info"></i>提示</h3>
         <ul>
-          <li>1、 模拟数据文件保存以后，将不会再展示代码，请提前备份好代码</li>
+          <li>1、 基于安全考虑，模拟数据文件保存以后，将不会再展示代码，请提前备份好代码</li>
           <template v-if="codeType==='js'">
-            <li>2、 js格式模拟文件，代码中不要出现require语句，为了方便，代码会自动引入mockjs，可以直接使用</li>
-            <li>3、 js格式模拟文件，需要实现getData方法，方法可以返回任意类型(包含Promise)</li>
+            <li>2、 需要实现getData方法，方法可以返回任意类型(包含Promise)</li>
             <li>
-              4、 getData返回数据为以下两种情况时，将作为错误处理
+              3、 getData返回数据为以下两种情况时，将作为错误处理
               <p>Error类型对象，返回500，信息内容为e.message</p>
               <p>[number,string]格式的数组，返回状态为array[0],信息内容为array[1]</p>
             </li>
+            <li>4、 基于安全考虑，代码中不要出现特殊字符(如'$')，不要出现require语句(为了方便，代码会自动引入Mockjs，可以直接使用)</li>
           </template>
         </ul>
       </div>

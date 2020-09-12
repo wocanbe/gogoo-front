@@ -68,10 +68,10 @@
     </my-dialog>
     <my-dialog title="编辑代码" :show.sync="showCode" @confirm="saveCode">
       <div class="info">
-        <h3><i class="fly-info"></i>提示</h3>
+        <h3><i class="fly-info"></i>安全提示</h3>
         <ul>
-          <li>1、 接口文件保存以后，将不会再展示代码，请提前备份好代码</li>
-          <li>2、 接口文件，代码中不要出现require语句，为了方便，代码会自动引入接口js，可以直接使用</li>
+          <li>1、 代码保存以后，将不会再展示代码，请提前备份好代码</li>
+          <li>2、 代码中不要出现特殊字符(如'$')，不要出现require语句</li>
         </ul>
       </div>
       <codemirror ref="code" v-model="codeData.content"></codemirror>
