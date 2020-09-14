@@ -134,7 +134,7 @@ export default {
         id: sessionStorage.getItem('serverid')
       })
       this.gqls = res
-      const gql = await this.$ajax('getGqlList', {
+      const gql = await this.$ajax('getGqlAll', {
         id: sessionStorage.getItem('serverid')
       })
       this.gql = gql.map(item => {

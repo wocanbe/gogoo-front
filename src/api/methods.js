@@ -65,7 +65,8 @@ function errFiter (err) {
     router.push({ name: 'login' })
   } else {
     store.commit('setLoading', false)
-    store.commit('setErrMsg', err.response.data || err.message)
+    if (err.response && err.response.data) store.commit('setErrMsg', err.response.data)
+    else store.commit('setErrMsg', err.message)
     throw err
   }
 }

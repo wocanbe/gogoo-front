@@ -9,7 +9,12 @@ const list = {
     method: 'post',
     url: 'api/reg'
   },
+  checkpath: 'quick/serve/check',
   getServe: 'quick/serve',
+  regServe: {
+    method: 'post',
+    url: 'quick/serve'
+  },
   saveServe: {
     method: 'put',
     url: 'quick/serve'
@@ -24,6 +29,7 @@ const list = {
     url: 'quick/mock'
   },
   getGqlList: 'quick/gql',
+  getGqlAll: 'quick/gql/all',
   addGql: {
     method: 'post',
     url: 'quick/gql'

@@ -4,6 +4,7 @@ import store from '../store'
 import Main from '../views/Main.vue'
 import Server from '../views/Server.vue'
 import Login from '../views/Login.vue'
+import Reg from '../views/Reg.vue'
 
 Vue.use(VueRouter)
 
@@ -58,6 +59,15 @@ const routes = [
       nouser: true // 不需要登录
     },
     component: Login
+  },
+  {
+    path: '/reg',
+    name: 'reg',
+    meta: {
+      title: '注册',
+      nouser: true // 不需要登录
+    },
+    component: Reg
   }
 ]
 
