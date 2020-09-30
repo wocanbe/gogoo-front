@@ -11,23 +11,6 @@ const list = {
   },
   checkpath: 'quick/serve/check',
   getServe: 'quick/serve',
-  regServe: {
-    method: 'post',
-    url: 'quick/serve'
-  },
-  saveServe: {
-    method: 'put',
-    url: 'quick/serve'
-  },
-  getMockList: 'quick/mock',
-  addMock: {
-    method: 'post',
-    url: 'quick/mock'
-  },
-  saveMock: {
-    method: 'put',
-    url: 'quick/mock'
-  },
   getGqlList: 'quick/gql',
   getGqlAll: 'quick/gql/all',
   addGql: {

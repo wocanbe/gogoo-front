@@ -1,6 +1,13 @@
 <template>
   <div class="full">
-    <header>Header</header>
+    <header>
+      Header
+      <div class="select">
+        <el-select v-model="selectServer" size="small" placeholder="请选择要管理的服务器" @change="changeServe">
+          <el-option v-for="serve in servers" :key="serve.id" :label="serve.name" :value="serve"></el-option>
+        </el-select>
+      </div>
+    </header>
     <div class="middle">
       <aside>
         <my-menus :menus="menus"></my-menus>
@@ -17,18 +24,10 @@
 import myMenus from '../components/Menus'
 const menus = [{
   id: '1',
-  title: '服务器设置',
-  path: '/server'
-}, {
-  id: '2',
-  title: '模拟接口',
-  path: '/mock'
-}, {
-  id: '3',
   title: '单个接口转发',
   path: '/single'
 }, {
-  id: '4',
+  id: '2',
   title: '组合接口转发',
   path: '/mult'
 }]
@@ -39,7 +38,22 @@ export default {
   },
   data () {
     return {
-      menus
+      menus,
+      servers: [],
+      selectServer: undefined
+    }
+  },
+  mounted () {
+    this.getServer()
+  },
+  methods: {
+    async getServer () {
+      this.servers = await this.$ajax('getServe')
+    },
+    changeServe (item) {
+      console.log(item);
+      sessionStorage.setItem('serverid', item.id)
+      sessionStorage.setItem('serverpath', item.path)
     }
   }
 }
@@ -47,6 +61,12 @@ export default {
 <style lang="scss" scoped>
 header {
   height: 80px;
+  position: relative;
+  .select {
+    position: absolute;
+    right: 20px;
+    bottom: 12px;
+  }
 }
 footer {
   position: absolute;

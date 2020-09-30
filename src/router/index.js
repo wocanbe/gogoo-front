@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store'
 import Main from '../views/Main.vue'
-import Server from '../views/Server.vue'
+import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Reg from '../views/Reg.vue'
 
@@ -15,29 +15,22 @@ const routes = [
     children: [
       {
         path: '',
-        redirect: '/server'
+        redirect: '/home'
       },
       {
-        path: '/server',
-        name: 'Server',
+        path: '/home',
+        name: 'Home',
         meta: {
-          title: '服务器信息'
+          title: '欢迎'
         },
-        component: Server
-      },
-      {
-        path: '/mock',
-        name: 'Mock',
-        meta: {
-          title: '模拟接口管理'
-        },
-        component: () => import(/* webpackChunkName: "component" */ '../views/mock/Index.vue')
+        component: Home
       },
       {
         path: '/single',
         name: 'Single',
         meta: {
-          title: '接口管理'
+          title: '接口管理',
+          needServe: true
         },
         component: () => import(/* webpackChunkName: "component" */ '../views/single/Index.vue')
       },
@@ -45,7 +38,8 @@ const routes = [
         path: '/mult',
         name: 'Mult',
         meta: {
-          title: '组合接口管理'
+          title: '组合接口管理',
+          needServe: true
         },
         component: () => import(/* webpackChunkName: "component" */ '../views/mult/Index.vue')
       }
@@ -91,8 +85,12 @@ router.beforeEach(async (to, from, next) => {
     }
   } else {
     store.commit('clean')
+    const serveid = window.sessionStorage.getItem('serverid')
     if (to.meta.needId && !to.query.id) {
       alert('缺少参数id')
+      next(false)
+    } else if (to.meta.needServe && !serveid) {
+      alert('请先选择要管理的服务器')
       next(false)
     } else {
       if (to.fullPath === '/login') next({ name: 'home', replace: true })
