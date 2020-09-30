@@ -10,6 +10,24 @@ Provide a server-side api aggregation method, and provide a more concise usage m
 
  - Do not use the ``$`` symbol and other special symbols in the code
 
+## Server setup
+
+ - Install nodejs and mysql
+
+ - Create database
+
+   Create database ``testdb``，And execute the statement in ``table.sql`` in the root directory to initialize the database
+
+ - Change setting
+
+   Modify ``dataCfg`` in ``serve.config.js``
+
+ - Open service
+
+   Execute ``npm run serve`` to start the service
+
+ - Configure servers and apis
+
 ## Instructions for use
 
 ### Single api forwarding
