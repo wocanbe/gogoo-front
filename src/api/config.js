@@ -1,13 +1,19 @@
 import methods from './methods'
+const userServer = 'http://localhost:8080/api/'
 const list = {
-  checkcode: 'api/checkcode',
+  checkcode: {
+    url: userServer + 'checkcode',
+    isCros: true
+  },
   login: {
     method: 'post',
-    url: 'api/login'
+    url: userServer + 'login',
+    isCros: true
   },
   reg: {
     method: 'post',
-    url: 'api/reg'
+    url: userServer + 'reg',
+    isCros: true
   },
   checkpath: 'quick/serve/check',
   getServe: 'quick/serve',
